@@ -1,6 +1,7 @@
-from praatio import textgrid
 from pathlib import Path
+
 import pandas as pd
+from praatio import textgrid
 
 # Open a textgrid with praatio:
 sample_tg_path = Path("sample_data/fgDDtwU4we4_15533.0-15538.76.TextGrid")

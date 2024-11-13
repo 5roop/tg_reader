@@ -1,6 +1,6 @@
 [project]
 name = "tg_reader"
-version = "2024.11.13.1"
+version = "2024.11.13.2"
 authors = [
   { name="Peter Rupnik", email="peter.rupnik@ijs.si" },
 ]
@@ -22,7 +22,7 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project.optional-dependencies]
-dev = ["black", "bumpver", "isort", "pip-tools", "pytest", "twine"]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest", "twine", "ruff"]
 
 [project.urls]
 Homepage = "https://github.com/5roop/tg_reader"
@@ -32,7 +32,7 @@ Issues = "https://github.com/5roop/tg_reader/issues"
 
 
 [tool.bumpver]
-current_version = "2024.11.13.1"
+current_version = "2024.11.13.2"
 version_pattern = "YYYY.MM.DD[.INC0]"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"
@@ -50,3 +50,33 @@ push = false
 ]
 "src/tg_reader/__init__.py" = ['__version__ = "{version}"']
 
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q -vv"
+testpaths = [
+    "tests",
+]
+
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+    "F",   # pyflakes
+    "E",   # pycodestyle
+    "I",   # isort
+    "ANN", # flake8 type annotations
+    "RUF", # ruff-specific rules
+]
+fixable = ["ALL"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

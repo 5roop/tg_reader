@@ -1,10 +1,11 @@
-__version__ = "2024.11.13.1"
+__version__ = "2024.11.13.2"
 
 
-from praatio.utilities.constants import Interval
 from pathlib import Path
-from loguru import logger
+
 import pandas as pd
+from loguru import logger
+from praatio.utilities.constants import Interval
 
 
 def tg_to_events(inpath: str | Path, target_tier: int = 3) -> list[Interval]:
@@ -24,7 +25,7 @@ def tg_to_events(inpath: str | Path, target_tier: int = 3) -> list[Interval]:
 
 def events_to_frames(
     events: list[Interval],
-    default_label=None,
+    default_label: str = "",
     max_time: float = -6.66,
     min_time: float = 0.0,
 ) -> list[str]:
@@ -52,6 +53,8 @@ def frames_to_intervals(frames: list[int]) -> list[pd.Interval]:
     raise NotImplementedError(
         "This part has not yet been adapted to multi-target labels. Go yell at the developer."
     )
+    from itertools import pairwise
+
     return_list = []
     ndf = pd.DataFrame(
         data={
