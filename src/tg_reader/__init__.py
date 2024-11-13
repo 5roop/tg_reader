@@ -1,3 +1,6 @@
+__version__ = "2024.11.13.1"
+
+
 from praatio.utilities.constants import Interval
 from pathlib import Path
 from loguru import logger

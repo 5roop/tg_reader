@@ -1,24 +1,52 @@
 [project]
 name = "tg_reader"
-version = "0.0.1"
+version = "2024.11.13.1"
 authors = [
   { name="Peter Rupnik", email="peter.rupnik@ijs.si" },
 ]
-description = "A small package for converting textgrids into 50Hz (20ms) label frames."
+description = "A small package for transforming textgrids into 50Hz (20ms) label frames and viceversa."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
-
+dependencies = [
+    "pandas",
+    "praatio",
+    "loguru"
+]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest", "twine"]
 
 [project.urls]
 Homepage = "https://github.com/5roop/tg_reader"
 Issues = "https://github.com/5roop/tg_reader/issues"
+
+
+
+
+[tool.bumpver]
+current_version = "2024.11.13.1"
+version_pattern = "YYYY.MM.DD[.INC0]"
+commit_message = "bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = false
+tag = false
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"'
+]
+"src/tg_reader/__init__.py" = ['__version__ = "{version}"']
+
