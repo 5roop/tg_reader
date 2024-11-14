@@ -16,12 +16,7 @@ def tg_to_events(inpath: str | Path, target_tier: int = 3) -> list[Interval]:
         f"Tier {target_tier} = '{tg.tierNames[target_tier]}' is selected"
     )
     results = list(tg.tiers[target_tier])
-    for this in results:
-        for other in results:
-            if this == other:
-                continue
-            if (this.start <= other.end) and (this.end >= other.end):
-                raise ValueError("Events overlap!")
+    validate_events(results)
     return results
 
 
@@ -41,6 +36,7 @@ def events_to_frames(
     """
     import pandas as pd
 
+    validate_events(events)
     assert max_time > min_time
     frames = pd.interval_range(start=min_time, end=max_time, freq=0.02)
     labels = [default_label for i in frames]
@@ -53,31 +49,49 @@ def events_to_frames(
     return labels
 
 
-def frames_to_intervals(frames: list[int]) -> list[pd.Interval]:
-    raise NotImplementedError(
-        "This part has not yet been adapted to multi-target labels."
-        "Go yell at the developer."
-    )
-    from itertools import pairwise
+def frames_to_intervals(frames: list[str]) -> list[Interval]:
+    # raise NotImplementedError(
+    #     "This part has not yet been adapted to multi-target labels."
+    #     "Go yell at the developer."
+    # )
 
-    return_list = []
     ndf = pd.DataFrame(
         data={
-            "millisecond": [20 * i for i in range(len(frames))],
+            "millisecond_start": [20 * i for i in range(len(frames))],
             "frames": frames,
         }
     )
+    ndf["millisecond_start"] = ndf.millisecond_start.astype(int)
+    ndf["millisecond_end"] = ndf.millisecond_start + 20
+    ndf["frames_next"] = ndf["frames"].shift(-1)
 
-    ndf["millisecond"] = ndf.millisecond.astype(int)
-    ndf = ndf.dropna()
-    indices_of_change = ndf.frames.diff()[ndf.frames.diff() != 0].index.values
-    for si, ei in pairwise(indices_of_change):
-        if ndf.loc[si : ei - 1, "frames"].mode()[0] == 0:
-            pass
-        else:
-            return_list.append(
-                pd.Interval(
-                    ndf.loc[si, "millisecond"], ndf.loc[ei - 1, "millisecond"]
-                )
-            )
+    # Filter rows where the frames value changes, including the last row
+    events = ndf[ndf["frames"] != ndf["frames_next"]].copy()
+
+    # Define start, end, and event value for each constant period
+    events["start"] = events["millisecond_start"]
+    events["end"] = events["millisecond_end"]
+    events["event"] = events["frames"]
+
+    # Select the relevant columns and convert to a list of lists
+    event_list = events[["start", "end", "event"]].values.tolist()
+    return_list = [
+        Interval(start=i[0] / 1e3, end=i[1] / 1e3, label=i[2])
+        for i in event_list
+    ]
     return return_list
+
+
+def validate_events(events: list[Interval]) -> None:
+    for i in events:
+        assert i.start < i.end
+    assert_non_overlapping(events)
+
+
+def assert_non_overlapping(events: list[Interval]) -> None:
+    for this in events:
+        for other in events:
+            if this == other:
+                continue
+            if (this.start < other.end) and (this.end > other.end):
+                raise AssertionError("Events overlap!")
