@@ -1,9 +1,7 @@
 [project]
 name = "tg_reader"
 version = "2024.11.13.2"
-authors = [
-  { name="Peter Rupnik", email="peter.rupnik@ijs.si" },
-]
+authors = [{ name = "Peter Rupnik", email = "peter.rupnik@ijs.si" }]
 description = "A small package for transforming textgrids into 50Hz (20ms) label frames and viceversa."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,22 +11,26 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies = [
-    "pandas",
-    "praatio",
-    "loguru"
-]
+dependencies = ["pandas", "praatio", "loguru", "scikit-learn"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
 [project.optional-dependencies]
-dev = ["black", "bumpver", "isort", "pip-tools", "pytest", "twine", "ruff"]
+dev = [
+    "black",
+    "bumpver",
+    "isort",
+    "pip-tools",
+    "pytest",
+    "twine",
+    "ruff",
+    "pandas-stubs",
+]
 
 [project.urls]
 Homepage = "https://github.com/5roop/tg_reader"
 Issues = "https://github.com/5roop/tg_reader/issues"
-
-
 
 
 [tool.bumpver]
@@ -44,23 +46,18 @@ tag = false
 push = false
 
 [tool.bumpver.file_patterns]
-"pyproject.toml" = [
-    'current_version = "{version}"',
-    'version = "{version}"'
-]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
 "src/tg_reader/__init__.py" = ['__version__ = "{version}"']
 
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q -vv"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 
 
 [tool.ruff]
-line-length = 100
+line-length = 80
 indent-width = 4
 
 [tool.ruff.format]
