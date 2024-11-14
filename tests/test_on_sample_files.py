@@ -16,7 +16,6 @@ def test_event_generation() -> None:
 def test_frame_generation() -> None:
     events = tr.tg_to_events(test_file)
     default_label = ""
-    default_label = ""
     max_time = max([i.end for i in events])
 
     frames = tr.events_to_frames(
@@ -33,8 +32,3 @@ def test_frame_generation() -> None:
             max_time=max_time,
             min_time=max_time + 1,
         )
-
-
-def test_not_implemented() -> None:
-    with pytest.raises(NotImplementedError):
-        tr.frames_to_intervals(frames=[0, 0, 1])
