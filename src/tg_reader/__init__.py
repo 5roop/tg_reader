@@ -12,7 +12,9 @@ def tg_to_events(inpath: str | Path, target_tier: int = 3) -> list[Interval]:
     from praatio import textgrid
 
     tg = textgrid.openTextgrid(inpath, includeEmptyIntervals=False)
-    logger.debug(f"Tier {target_tier} = '{tg.tierNames[target_tier]}' is selected")
+    logger.debug(
+        f"Tier {target_tier} = '{tg.tierNames[target_tier]}' is selected"
+    )
     results = list(tg.tiers[target_tier])
     for this in results:
         for other in results:
@@ -31,8 +33,10 @@ def events_to_frames(
 ) -> list[str]:
     """Transforms textgrid Intervals into a list of labels.
 
-    :param list[Interval] events: Intervals with attrib end, start, and label[str]
-    :param _type_ default_label: What to use in frames where no Interval is found, defaults to None
+    :param list[Interval] events: Intervals with attrib
+    end, start, and label[str]
+    :param _type_ default_label: What to use in frames
+    where no Interval is found, defaults to ""
     :return list[str]:
     """
     import pandas as pd
@@ -51,7 +55,8 @@ def events_to_frames(
 
 def frames_to_intervals(frames: list[int]) -> list[pd.Interval]:
     raise NotImplementedError(
-        "This part has not yet been adapted to multi-target labels. Go yell at the developer."
+        "This part has not yet been adapted to multi-target labels."
+        "Go yell at the developer."
     )
     from itertools import pairwise
 
@@ -71,6 +76,8 @@ def frames_to_intervals(frames: list[int]) -> list[pd.Interval]:
             pass
         else:
             return_list.append(
-                pd.Interval(ndf.loc[si, "millisecond"], ndf.loc[ei - 1, "millisecond"])
+                pd.Interval(
+                    ndf.loc[si, "millisecond"], ndf.loc[ei - 1, "millisecond"]
+                )
             )
     return return_list

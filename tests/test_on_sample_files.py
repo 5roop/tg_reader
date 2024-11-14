@@ -19,7 +19,9 @@ def test_frame_generation() -> None:
     default_label = ""
     max_time = max([i.end for i in events])
 
-    frames = tr.events_to_frames(events, default_label=default_label, max_time=max_time)
+    frames = tr.events_to_frames(
+        events, default_label=default_label, max_time=max_time
+    )
     assert set(frames) == set([i.label for i in events]).union(
         {default_label}
     ), "Sets of labels differ between frames and events..."
