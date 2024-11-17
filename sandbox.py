@@ -13,4 +13,7 @@ class Interval(BaseModel):
         return data
 
 
-Interval(start=1, end=2, label="")
+a = Interval(start=1, end=2, label="")
+
+
+2+2
