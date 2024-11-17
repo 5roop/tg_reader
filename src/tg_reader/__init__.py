@@ -8,8 +8,6 @@ from loguru import logger
 
 from tg_reader.datatypes import Events, Interval
 
-# from praatio.utilities.constants import Interval
-
 
 def tg_to_events(inpath: str | Path, target_tier: int = 3) -> Events:
     from praatio import textgrid
