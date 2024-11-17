@@ -25,6 +25,7 @@ dev = [
     "isort",
     "pip-tools",
     "pytest",
+    "pytest-cov",
     "twine",
     "ruff",
     "pandas-stubs",
@@ -54,7 +55,7 @@ push = false
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q -vv"
+addopts = "-ra -q -vv --cov=src"
 testpaths = ["tests"]
 
 
