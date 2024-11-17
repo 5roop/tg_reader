@@ -4,7 +4,7 @@ version = "2024.11.13.2"
 authors = [{ name = "Peter Rupnik", email = "peter.rupnik@ijs.si" }]
 description = "A small package for transforming textgrids into 50Hz (20ms) label frames and viceversa."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
