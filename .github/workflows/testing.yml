@@ -7,10 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
@@ -20,27 +23,20 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install .[dev]
     - name: Run pytest with coverage
-      if: always()
       run: |
-        pytest --cov-report term --cov-report=html
-        coverate json -o CICD/coverage.json
+        pytest
+        coverage json -o CICD/coverage.json
     - name: Run bandit
-      if: always()
       run: |
         bandit -r src --format json > CICD/bandit.json
     - name: Ruff
       run: |
         ruff check src --fix
-    - name: Configure git
-      if: always()
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
     - name: Add and commit CICD dir
-      if: always()
-      run: |
-        git add CICD
-        git commit -m "Add CICD dir"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: "CICD"
+        fetch: false
+        push: true
+
+

@@ -29,15 +29,3 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    # - name: Test with pytest and save coverage
-    #   run: |
-    #     pytest --cov-report term --cov-report=html
-    # - name: Test security with bandit
-    #   run: |
-    #     bandit -r src > .bandit_report_${{ matrix.python-version }}
-    # - name: Upload artifacts
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: pytest-results-${{ matrix.python-version }}
-    #       path: .pytest_cache/test-results-${{ matrix.python-version }}.xml
-    #     if: ${{ always() }}
