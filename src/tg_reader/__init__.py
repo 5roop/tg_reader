@@ -5,56 +5,58 @@ from pathlib import Path
 
 import pandas as pd
 from loguru import logger
-from praatio.utilities.constants import Interval
+
+from tg_reader.datatypes import Events, Interval
+
+# from praatio.utilities.constants import Interval
 
 
-def tg_to_events(inpath: str | Path, target_tier: int = 3) -> list[Interval]:
+def tg_to_events(inpath: str | Path, target_tier: int = 3) -> Events:
     from praatio import textgrid
 
     tg = textgrid.openTextgrid(inpath, includeEmptyIntervals=False)
     logger.debug(
         f"Tier {target_tier} = '{tg.tierNames[target_tier]}' is selected"
     )
-    results = list(tg.tiers[target_tier])
-    validate_events(results)
-    return results
+    results = [
+        Interval(start=i.start, end=i.end, label=i.label)
+        for i in tg.tiers[target_tier]
+    ]
+
+    return Events(events=results)
 
 
 def events_to_frames(
-    events: list[Interval],
-    default_label: str = "",
+    events: Events,
     max_time: float = -6.66,
     min_time: float = 0.0,
 ) -> list[str]:
     """Transforms textgrid Intervals into a list of labels.
 
-    :param list[Interval] events: Intervals with attrib
-    end, start, and label[str]
+    :param Events events: Intervals with attrib
+    end, start, and label[str], wrapped in Events structure
     :param _type_ default_label: What to use in frames
     where no Interval is found, defaults to ""
     :return list[str]:
     """
+
+    default_label = ""
     import pandas as pd
 
-    validate_events(events)
-    assert max_time > min_time
+    if max_time <= min_time:
+        raise ValueError("Min time is greater or equal to max time!")
     frames = pd.interval_range(start=min_time, end=max_time, freq=0.02)
     labels = [default_label for i in frames]
     for i, frame in enumerate(frames):
-        for event in events:
+        for event in events.events:
             es, ee = event.start, event.end
             fs, fe = frame.left, frame.right
-            if (es <= fe) and (ee >= fs):
+            if (es < fe) and (ee > fs):
                 labels[i] = event.label
     return labels
 
 
-def frames_to_intervals(frames: list[str]) -> list[Interval]:
-    # raise NotImplementedError(
-    #     "This part has not yet been adapted to multi-target labels."
-    #     "Go yell at the developer."
-    # )
-
+def frames_to_events(frames: list[str]) -> Events:
     ndf = pd.DataFrame(
         data={
             "millisecond_start": [20 * i for i in range(len(frames))],
@@ -75,23 +77,10 @@ def frames_to_intervals(frames: list[str]) -> list[Interval]:
 
     # Select the relevant columns and convert to a list of lists
     event_list = events[["start", "end", "event"]].values.tolist()
-    return_list = [
-        Interval(start=i[0] / 1e3, end=i[1] / 1e3, label=i[2])
-        for i in event_list
-    ]
-    return return_list
-
-
-def validate_events(events: list[Interval]) -> None:
-    for i in events:
-        assert i.start < i.end
-    assert_non_overlapping(events)
-
-
-def assert_non_overlapping(events: list[Interval]) -> None:
-    for this in events:
-        for other in events:
-            if this == other:
-                continue
-            if (this.start < other.end) and (this.end > other.end):
-                raise AssertionError("Events overlap!")
+    return_events = Events(
+        events=[
+            Interval(start=i[0] / 1e3, end=i[1] / 1e3, label=i[2])
+            for i in event_list
+        ]
+    )
+    return return_events
