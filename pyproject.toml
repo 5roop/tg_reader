@@ -52,6 +52,7 @@ push = false
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
 "src/tg_reader/__init__.py" = ['__version__ = "{version}"']
+"README.md" = ["__version__"]
 
 
 [tool.pytest.ini_options]

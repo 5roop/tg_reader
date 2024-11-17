@@ -1,7 +1,7 @@
 try:
-    from typing import Self, Any, Iterable  # Available in Python 3.11 and later
+    from typing import Any, Iterable, Self  # Available in Python 3.11 and later
 except ImportError:
-    from typing_extensions import Self, Any, Iterable
+    from typing_extensions import Any, Iterable, Self
 
 from pydantic import BaseModel, field_validator, model_validator
 
