@@ -6,10 +6,14 @@ from pathlib import Path
 import pandas as pd
 from loguru import logger
 
+try:
+    from typing import Union
+except ImportError:
+    from typing_extensions import Union
 from tg_reader.datatypes import Events, Interval
 
 
-def tg_to_events(inpath: str | Path, target_tier: int = 3) -> Events:
+def tg_to_events(inpath: Union[str, Path], target_tier: int = 3) -> Events:
     from praatio import textgrid
 
     tg = textgrid.openTextgrid(inpath, includeEmptyIntervals=False)
