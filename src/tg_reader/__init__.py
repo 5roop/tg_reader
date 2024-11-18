@@ -1,4 +1,4 @@
-__version__ = "2024.11.18"
+__version__ = "2024.11.18.1"
 
 
 from pathlib import Path
@@ -33,13 +33,28 @@ def events_to_frames(
     max_time: float = -6.66,
     min_time: float = 0.0,
 ) -> list[str]:
-    """Transforms textgrid Intervals into a list of labels.
+    """Transforms Events into a list of labels.
+    Needs maxtime to know where to stop.
 
-    :param Events events: Intervals with attrib
-    end, start, and label[str], wrapped in Events structure
-    :param _type_ default_label: What to use in frames
-    where no Interval is found, defaults to ""
-    :return list[str]:
+    If the last frame would end over max_time, it is skipped.
+    E.g., for max_time = 0.03, only one frame is generated.
+
+    Use as :
+
+    .. code-block:: python
+        events = Events(
+            events=[
+                Interval(start=0, end=0.02, label="+"),
+                Interval(start=0.04, end=0.06, label="-"),
+            ]
+        )
+        frames = frames_to_events(events, max_time=0.08)
+        # Frames: ["+", "", "-", ""]
+    :param Events events: _description_
+    :param float max_time: until which time we need frames, defaults to -6.66,
+    :param float min_time: min time, usually 0, defaults to 0.0
+    :raises ValueError: Errors if max time is less or equal to min time.
+    :return list[str]: Frames in 50Hz with string labels.
     """
 
     default_label = ""
@@ -59,6 +74,29 @@ def events_to_frames(
 
 
 def frames_to_events(frames: list[str]) -> Events:
+    """Generate Events from frames. Pseudo-inverse of events_to_frames,
+    except that it also generates Intervals with default label.
+    Use as :
+
+    .. code-block:: python
+        events = Events(
+            events=[
+                Interval(start=0, end=0.02, label="+"),
+                Interval(start=0.04, end=0.06, label="-"),
+            ]
+        )
+        frames = frames_to_events(events, max_time=0.08)
+        regenerated_events = events_to_frames(frames)
+        regenerated_events
+        # Returns Events(events=[
+        #    Interval(start=0, end=0.02, label="+"),
+        #    Interval(start=0.02, end=0.04),
+        #    Interval(start=0.04, end=0.06, label="-"),
+        #    Interval(start=0.06, end=0.08),
+        #])
+    :param list[str] frames: 50Hz frames with string labels
+    :return Events: reconstructed events
+    """
     ndf = pd.DataFrame(
         data={
             "millisecond_start": [20 * i for i in range(len(frames))],

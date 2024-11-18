@@ -7,6 +7,16 @@ from pydantic import BaseModel, field_validator, model_validator
 
 
 class Interval(BaseModel):
+    """Model for intervals. Automatically generates default label ''
+    if none is passed and validates duration (must be >0). Initiate as
+    .. code-block:: python
+        i = Interval(start=0, end=10, label="+")
+
+    :param float start: start of the interval
+    :param float end: end of the interval
+    :param str label: label, arbitrary string, defaults to ''
+    """
+
     start: float
     end: float
     label: str = ""
@@ -19,6 +29,18 @@ class Interval(BaseModel):
 
 
 class Events(BaseModel):
+    """Model for validating a collection of intervals.
+
+    Will not validate if events overlap. Events are sorted
+    by start time.
+
+    Use as:
+    .. code-block:: python
+        events = Events(events=[Interval(start=0, end=10, label="Hello")])
+
+    :param Iterable[Intervals] events: list or other iterable of Interval types.
+    """
+
     events: Iterable[Interval]
 
     @field_validator("events", mode="plain")
