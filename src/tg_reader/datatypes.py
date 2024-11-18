@@ -15,6 +15,15 @@ class Interval(BaseModel):
     :param float start: start of the interval
     :param float end: end of the interval
     :param str label: label, arbitrary string, defaults to ''
+
+    Examples:
+    >>> Interval(start=0, end=10, label="+")
+    Interval(start=0.0, end=10.0, label='+')
+
+    >>> Interval(start=0, end=10)
+    Interval(start=0.0, end=10.0, label='')
+
+
     """
 
     start: float
@@ -34,11 +43,18 @@ class Events(BaseModel):
     Will not validate if events overlap. Events are sorted
     by start time.
 
-    Use as:
-    .. code-block:: python
-        events = Events(events=[Interval(start=0, end=10, label="Hello")])
-
     :param Iterable[Intervals] events: list or other iterable of Interval types.
+
+
+    Example:
+    >>> Events(events=[Interval(start=0, end=10, label="Hello")])
+    Events(events=[Interval(start=0.0, end=10.0, label='Hello')])
+
+    >>> Events(events=[
+    ...    Interval(start=100, end=110, label="World"),
+    ...    Interval(start=0, end=10, label="Hello"),
+    ...    ])
+    Events(events=[Interval(start=0.0, end=10.0, label='Hello'),...])
     """
 
     events: Iterable[Interval]

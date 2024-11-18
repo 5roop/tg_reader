@@ -34,6 +34,9 @@ jobs:
     - name: Ruff
       run: |
         ruff check src --fix
+    - name: Doctests
+      run: |
+        python -m doctest -o ELLIPSIS -v src/tg_reader/*.py
     - name: Add and commit CICD dir
       uses: EndBug/add-and-commit@v9
       with:
