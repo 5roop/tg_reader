@@ -44,9 +44,9 @@ class Events(BaseModel):
     by start time.
 
     :param Iterable[Intervals] events: list or other iterable of Interval types.
+    :raises ValidationError: when events overlap (but not when one ends exactly where the next ends.)
 
-
-    Example:
+    .. code-block:: python
     >>> Events(events=[Interval(start=0, end=10, label="Hello")])
     Events(events=[Interval(start=0.0, end=10.0, label='Hello')])
 
