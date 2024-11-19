@@ -1,7 +1,4 @@
-try:
-    from typing import Any, Iterable, Self  # Available in Python 3.11 and later
-except ImportError:
-    from typing_extensions import Any, Iterable, Self
+from typing_extensions import Any, Iterable, Self
 
 from pydantic import BaseModel, field_validator, model_validator
 

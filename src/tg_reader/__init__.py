@@ -6,10 +6,7 @@ from pathlib import Path
 import pandas as pd
 from loguru import logger
 
-try:
-    from typing import Union
-except ImportError:
-    from typing_extensions import Union
+from typing_extensions import Union
 from tg_reader.datatypes import Events, Interval
 
 
