@@ -7,7 +7,7 @@ class Interval(BaseModel):
     """Model for intervals. Automatically generates default label ''
     if none is passed and validates duration (must be >0). Initiate as
     .. code-block:: python
-        i = Interval(start=0, end=10, label="+")
+      i = Interval(start=0, end=10, label="+")
 
     :param float start: start of the interval
     :param float end: end of the interval
@@ -49,9 +49,9 @@ class Events(BaseModel):
     Events(events=[Interval(start=0.0, end=10.0, label='Hello')])
 
     >>> Events(events=[
-    ...    Interval(start=100, end=110, label="World"),
-    ...    Interval(start=0, end=10, label="Hello"),
-    ...    ])
+    ...  Interval(start=100, end=110, label="World"),
+    ...  Interval(start=0, end=10, label="Hello"),
+    ...  ])
     Events(events=[Interval(start=0.0, end=10.0, label='Hello'),...])
     """
 
