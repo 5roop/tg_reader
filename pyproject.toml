@@ -28,7 +28,6 @@ dev = [
     "pytest-cov",
     "twine",
     "ruff",
-    "pandas-stubs",
     "bandit",
 ]
 
