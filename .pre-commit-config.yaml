@@ -23,7 +23,7 @@ repos:
         language: system
         types: [text]
         pass_filenames: false
-        stages: [pre-commit]
+        stages: [pre-commit, pre-push]
       - id: ruff
         name: run ruff
         description: Run ruff check and fix where able
