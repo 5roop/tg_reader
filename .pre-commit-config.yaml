@@ -24,6 +24,14 @@ repos:
         types: [text]
         pass_filenames: false
         stages: [pre-commit]
+      - id: ruff
+        name: run ruff
+        description: Run ruff check and fix where able
+        entry: ruff check --fix src tests
+        language: system
+        types: [text]
+        pass_filenames: false
+        stages: [pre-commit]
       - id: isort
         name: isort
         description: Sort imports in src dir
