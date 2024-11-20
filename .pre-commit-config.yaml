@@ -47,7 +47,7 @@ repos:
         language: system
         types: [text]
         pass_filenames: false
-        stages: [pre-push]
+        stages: [pre-commit]
       - id: bandit
         name: test with bandit
         description: Test with bandit
@@ -55,4 +55,4 @@ repos:
         language: system
         types: [text]
         pass_filenames: false
-        stages: [pre-push]
+        stages: [pre-commit]
