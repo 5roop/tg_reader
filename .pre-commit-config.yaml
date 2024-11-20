@@ -32,3 +32,11 @@ repos:
         types: [text]
         pass_filenames: false
         stages: [pre-commit]
+      - id: bandit
+        name: test with bandit
+        description: Test with bandit
+        entry: bandit -r src -ll
+        language: system
+        types: [text]
+        pass_filenames: false
+        stages: [pre-commit]
