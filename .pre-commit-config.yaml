@@ -19,7 +19,7 @@ repos:
       - id: rmcache
         name: remove cache
         description: Remove cache dirs that appear with testing
-        entry: bash .git/hooks/rmcache.sh
+        entry: rm -rf dist/ *_cache/ .coverage
         language: system
         types: [text]
         pass_filenames: false
