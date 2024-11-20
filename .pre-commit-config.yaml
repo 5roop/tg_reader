@@ -16,14 +16,6 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: rmcache
-        name: remove cache
-        description: Remove cache dirs that appear with testing
-        entry: rm -rf dist/ *_cache/ .coverage
-        language: system
-        types: [text]
-        pass_filenames: false
-        stages: [pre-commit, pre-push]
       - id: ruff
         name: run ruff
         description: Run ruff check and fix where able
@@ -56,3 +48,11 @@ repos:
         types: [text]
         pass_filenames: false
         stages: [pre-commit]
+      - id: rmcache
+        name: remove cache
+        description: Remove cache dirs that appear with testing
+        entry: rm -rf dist/ *_cache/ .coverage
+        language: system
+        types: [text]
+        pass_filenames: false
+        stages: [pre-commit, pre-push, post-commit]
