@@ -14,3 +14,10 @@ repos:
       - id: check-toml
       - id: check-xml
       - id: trailing-whitespace
+      # - id: rmcache
+      #   name: remove-cache
+      #   description: Remove cache dirs that appear with testing
+      #   entry: ./git/hooks/rmcache.sh
+      #   language: script
+      #   types: [text]
+      #   stages: [pre-commit]
