@@ -29,6 +29,7 @@ dev = [
     "twine",
     "ruff",
     "bandit",
+    "pre-commit",
 ]
 
 [project.urls]
