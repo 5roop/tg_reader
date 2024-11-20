@@ -14,10 +14,21 @@ repos:
       - id: check-toml
       - id: check-xml
       - id: trailing-whitespace
-      # - id: rmcache
-      #   name: remove-cache
-      #   description: Remove cache dirs that appear with testing
-      #   entry: ./git/hooks/rmcache.sh
-      #   language: script
-      #   types: [text]
-      #   stages: [pre-commit]
+  - repo: local
+    hooks:
+      - id: rmcache
+        name: remove cache
+        description: Remove cache dirs that appear with testing
+        entry: bash .git/hooks/rmcache.sh
+        language: system
+        types: [text]
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: pytest
+        name: test with pytest
+        description: Test with pytest
+        entry: pytest
+        language: system
+        types: [text]
+        pass_filenames: false
+        stages: [pre-commit]
