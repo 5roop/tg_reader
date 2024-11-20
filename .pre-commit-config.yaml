@@ -56,10 +56,3 @@ repos:
         types: [text]
         pass_filenames: false
         stages: [pre-commit, pre-push, post-commit]
-  - repo: https://github.com/thoughtworks/talisman
-    rev: "v1.32.0" # Update me!
-    hooks:
-      # both pre-commit and pre-push supported
-      # -   id: talisman-push
-      - id: talisman-push
-        entry: cmd --githook pre-push
