@@ -57,14 +57,14 @@ class Events(BaseModel):
     events: Iterable[Interval]
 
     @field_validator("events", mode="plain")
-    def validate(cls: Any, data: Iterable[Interval]) -> Iterable[Interval]:
-        for i in data:
-            for j in data:
+    def validate(cls: Any, value: Iterable[Interval]) -> Iterable[Interval]:
+        for i in value:
+            for j in value:
                 if i == j:
                     continue
                 if (i.start < j.end) and (i.end > j.start):
                     raise ValueError(
                         f"Found overlapping events: \n*{i} \n*{j}\n"
                     )
-        data = sorted(data, key=lambda i: i.start)
-        return list(data)
+        value = sorted(value, key=lambda i: i.start)
+        return list(value)
