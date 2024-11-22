@@ -18,6 +18,10 @@ dependencies = ["pandas", "praatio", "loguru", "scikit-learn", "pydantic"]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch]
+sources = [{ path = "src" }]
+
+
 [project.optional-dependencies]
 dev = [
     "black",
